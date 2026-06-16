@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
 
 const values = [
   {
@@ -68,30 +69,95 @@ const values = [
   },
 ];
 
-const team = [
-  {
-    name: "Karim El Amrani",
-    role: "Founder & CEO",
-    bio: "With over 15 years in Moroccan real estate, Karim founded LaTour Immo to bring transparency and excellence to the market.",
-  },
-  {
-    name: "Salma Benali",
-    role: "Head of Sales",
-    bio: "Salma leads our sales team with a passion for matching clients with their ideal properties across Morocco's top cities.",
-  },
-  {
-    name: "Youssef Tazi",
-    role: "Senior Property Advisor",
-    bio: "Youssef specializes in luxury villas and commercial investments, offering expert guidance to discerning buyers and sellers.",
-  },
-];
+// const team = [
+//   {
+//     name: "Karim El Amrani",
+//     role: "Founder & CEO",
+//     bio: "With over 15 years in Moroccan real estate, Karim founded LaTour Immo to bring transparency and excellence to the market.",
+//   },
+//   {
+//     name: "Salma Benali",
+//     role: "Head of Sales",
+//     bio: "Salma leads our sales team with a passion for matching clients with their ideal properties across Morocco's top cities.",
+//   },
+//   {
+//     name: "Youssef Tazi",
+//     role: "Senior Property Advisor",
+//     bio: "Youssef specializes in luxury villas and commercial investments, offering expert guidance to discerning buyers and sellers.",
+//   },
+// ];
 
 const highlights = [
-  { value: "10+", label: "Years Experience" },
-  { value: "500+", label: "Properties Sold" },
-  { value: "1000+", label: "Happy Clients" },
+  { value: "3+", label: "Years Experience" },
+  { value: "20+", label: "Properties Sold" },
+  { value: "30+", label: "Happy Clients" },
   { value: "24/7", label: "Support" },
 ];
+
+interface HighlightItem {
+  value: string;
+  label: string;
+}
+
+const CounterItem = ({ item }: { item: HighlightItem }) => {
+  const [count, setCount] = useState<string | number>(0);
+  const elementRef = useRef<HTMLParagraphElement>(null);
+  const hasAnimated = useRef<boolean>(false);
+
+  useEffect(() => {
+    const target = elementRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
+          const numericTarget = parseInt(item.value, 10);
+
+          if (isNaN(numericTarget)) {
+            setCount(item.value);
+            return;
+          }
+
+          const duration = 2000;
+          const frameDuration = 1000 / 60;
+          const totalFrames = Math.round(duration / frameDuration);
+          let frame = 0;
+
+          const counter = setInterval(() => {
+            frame++;
+            const progress = frame / totalFrames;
+            const easeOutProgress = progress * (2 - progress);
+            const currentCount = Math.floor(easeOutProgress * numericTarget);
+
+            if (frame >= totalFrames) {
+              clearInterval(counter);
+              setCount(item.value);
+            } else {
+              const suffix = item.value.replace(/[0-9]/g, "");
+              setCount(`${currentCount}${suffix}`);
+            }
+          }, frameDuration);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [item.value]);
+
+  return (
+    <div className="rounded-xl border border-gray-100 bg-white p-6 text-center shadow-sm">
+      <p ref={elementRef} className="text-3xl font-bold tabular-nums text-[#c9a84c] sm:text-4xl">
+        {count}
+      </p>
+      <p className="mt-2 text-sm font-semibold text-[#1a2b4a] sm:text-base">
+        {item.label}
+      </p>
+    </div>
+  );
+};
 
 export default function AboutPage() {
   return (
@@ -172,7 +238,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      {/* <section className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-7xl">
           <h2 className="text-center text-2xl font-bold text-[#1a2b4a] sm:text-3xl">
             Our Team
@@ -203,7 +269,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="bg-gray-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-7xl">
@@ -214,17 +280,7 @@ export default function AboutPage() {
 
           <div className="mt-10 grid grid-cols-2 gap-6 lg:grid-cols-4">
             {highlights.map((item) => (
-              <div
-                key={item.label}
-                className="rounded-xl border border-gray-100 bg-white p-6 text-center shadow-sm"
-              >
-                <p className="text-3xl font-bold text-[#c9a84c] sm:text-4xl">
-                  {item.value}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-[#1a2b4a] sm:text-base">
-                  {item.label}
-                </p>
-              </div>
+              <CounterItem key={item.label} item={item} />
             ))}
           </div>
         </div>

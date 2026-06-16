@@ -43,7 +43,7 @@ const navItems = [
 function getIcon(iconType: string) {
   switch (iconType) {
     case "dashboard":
-  return <Squares2X2Icon className="h-5 w-5" />;
+      return <Squares2X2Icon className="h-5 w-5" />;
     case "properties":
       return (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -56,8 +56,8 @@ function getIcon(iconType: string) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
         </svg>
       );
-      case "evaluations":
-        return <ClipboardDocumentCheckIcon className="h-5 w-5" />;
+    case "evaluations":
+      return <ClipboardDocumentCheckIcon className="h-5 w-5" />;
     default:
       return null;
   }
@@ -339,64 +339,68 @@ export default function EvaluationsPage() {
                   className="rounded-lg border border-gray-100 bg-white p-4 cursor-pointer shadow-sm hover:shadow-md transition-all"
                   onClick={() => openEvaluation(evaluation)}
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    {evaluation.photos && evaluation.photos.length > 0 && (
-                      isVideoUrl(evaluation.photos[0]) ? (
-                        <div className="relative w-16 h-16 rounded-lg overflow-hidden 
-                                        bg-gray-900 flex-shrink-0 border border-gray-200">
-                          <video
-                            src={evaluation.photos[0]}
-                            className="w-full h-full object-cover"
-                            muted
-                            preload="metadata"
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center 
-                                          bg-black/50">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 className="w-4 h-4 text-white" fill="currentColor"
-                                 viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                    <div className="flex items-start gap-4 min-w-0 w-full">
+                      {evaluation.photos && evaluation.photos.length > 0 && (
+                        isVideoUrl(evaluation.photos[0]) ? (
+                          <div className="relative w-16 h-16 rounded-lg overflow-hidden 
+                                          bg-gray-900 flex-shrink-0 border border-gray-200">
+                            <video
+                              src={evaluation.photos[0]}
+                              className="w-full h-full object-cover"
+                              muted
+                              preload="metadata"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center 
+                                            bg-black/50">
+                              <svg xmlns="http://www.w3.org/2000/svg"
+                                   className="w-4 h-4 text-white" fill="currentColor"
+                                   viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            </div>
                           </div>
+                        ) : (
+                          <img
+                            src={evaluation.photos[0]}
+                            alt="Property"
+                            className="w-16 h-16 object-cover rounded-lg border border-gray-200 
+                                       flex-shrink-0"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                        )
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                          <h3 className="text-sm font-semibold text-gray-900 truncate">{evaluation.name ?? "Unknown"}</h3>
+                          <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeColor(evaluation.status)}`}>
+                            {((evaluation.status ?? "pending").charAt(0).toUpperCase() + (evaluation.status ?? "pending").slice(1))}
+                          </span>
                         </div>
-                      ) : (
-                        <img
-                          src={evaluation.photos[0]}
-                          alt="Property"
-                          className="w-16 h-16 object-cover rounded-lg border border-gray-200 
-                                     flex-shrink-0"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                          }}
-                        />
-                      )
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-sm font-semibold text-gray-900">{evaluation.name ?? "Unknown"}</h3>
-                        <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeColor(evaluation.status)}`}>
-                          {((evaluation.status ?? "pending").charAt(0).toUpperCase() + (evaluation.status ?? "pending").slice(1))}
-                        </span>
-                      </div>
-                      <p className="text-xs text-gray-500 mb-1">{evaluation.email ?? "—"}</p>
-                      {evaluation.phone && (
-                        <p className="text-xs text-gray-500 mb-1">{evaluation.phone}</p>
-                      )}
-                      <p className="text-xs text-gray-600 mb-2">
-                        <span className="font-medium">{evaluation.type ?? "—"}</span> • {evaluation.location ?? "—"}
-                        {evaluation.surface && <span> • {evaluation.surface} m²</span>}
-                      </p>
-                      {evaluation.desired_price && (
-                        <p className="text-xs text-gray-600 mb-2">{evaluation.desired_price.toLocaleString()} MAD</p>
-                      )}
-                      <p className="text-xs text-gray-400">{formatDate(evaluation.created_at ?? "")}</p>
-                      {evaluation.notes && (
-                        <p className="mt-1 text-xs text-gray-400 line-clamp-1 italic">
-                          &ldquo;{evaluation.notes}&rdquo;
+                        <p className="text-xs text-gray-500 mb-1 break-all">{evaluation.email ?? "—"}</p>
+                        {evaluation.phone && (
+                          <p className="text-xs text-gray-500 mb-1">{evaluation.phone}</p>
+                        )}
+                        <p className="text-xs text-gray-600 mb-1.5">
+                          <span className="font-medium">{evaluation.type ?? "—"}</span> • {evaluation.location ?? "—"}
+                          {evaluation.surface && <span> • {evaluation.surface} m²</span>}
                         </p>
-                      )}
+                        {evaluation.desired_price && (
+                          <p className="text-xs text-gray-600 mb-1.5">{evaluation.desired_price.toLocaleString()} MAD</p>
+                        )}
+                        <p className="text-xs text-gray-400">{formatDate(evaluation.created_at ?? "")}</p>
+                        {evaluation.notes && (
+                          <p className="mt-1 text-xs text-gray-400 line-clamp-1 italic">
+                            &ldquo;{evaluation.notes}&rdquo;
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
+                    
+                    {/* Fixed Actions for Mobile Layout Wrap */}
+                    <div className="flex items-center gap-2 w-full sm:w-auto justify-end pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 shrink-0">
                       <select
                         value={evaluation.status ?? "pending"}
                         onChange={(e) => {
@@ -404,7 +408,7 @@ export default function EvaluationsPage() {
                           handleStatusChange(evaluation.id, e.target.value as "pending" | "reviewed" | "contacted");
                         }}
                         onClick={(e) => e.stopPropagation()}
-                        className="px-2 py-1 text-xs rounded-lg border border-gray-300 bg-white text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent"
+                        className="px-2 py-1 text-xs rounded-lg border border-gray-300 bg-white text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent flex-1 sm:flex-none"
                       >
                         <option value="pending">Pending</option>
                         <option value="reviewed">Reviewed</option>
@@ -419,8 +423,8 @@ export default function EvaluationsPage() {
                         title="Delete evaluation"
                       >
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -432,11 +436,11 @@ export default function EvaluationsPage() {
       </main>
 
       {showModal && selectedEvaluation && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-2xl max-h-screen overflow-y-auto rounded-xl bg-white shadow-2xl">
-            <div className="sticky top-0 border-b border-gray-200 bg-white p-6 sm:p-8 flex items-start justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 overflow-y-auto">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-white shadow-2xl my-auto">
+            <div className="sticky top-0 border-b border-gray-200 bg-white p-6 sm:p-8 flex items-start justify-between z-10">
               <div>
-                <h3 className="text-2xl font-bold text-[#1a2b4a]">Evaluation from {selectedEvaluation.name ?? "Unknown"}</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#1a2b4a] pr-4">Evaluation from {selectedEvaluation.name ?? "Unknown"}</h3>
                 <p className="mt-1 text-sm text-gray-600">{selectedEvaluation.created_at ? formatDate(selectedEvaluation.created_at) : "—"}</p>
               </div>
               <button
@@ -453,11 +457,11 @@ export default function EvaluationsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <h4 className="text-sm font-semibold text-gray-600 mb-1">Full Name</h4>
-                  <p className="text-gray-900">{selectedEvaluation.name ?? "Unknown"}</p>
+                  <p className="text-gray-900 break-words">{selectedEvaluation.name ?? "Unknown"}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-gray-600 mb-1">Email</h4>
-                  <a href={`mailto:${selectedEvaluation.email ?? ""}`} className="text-[#c9a84c] hover:underline">
+                  <a href={`mailto:${selectedEvaluation.email ?? ""}`} className="text-[#c9a84c] hover:underline break-all">
                     {selectedEvaluation.email ?? "—"}
                   </a>
                 </div>
@@ -682,51 +686,6 @@ export default function EvaluationsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
-          )}
-
-          {lightboxPhotos.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {lightboxPhotos.map((url, index) => (
-                isVideoUrl(url) ? (
-                  <div key={index} className="relative w-14 h-14">
-                    <video
-                      src={url}
-                      className="w-full h-full object-cover rounded-lg cursor-pointer border-2 transition-all duration-200"
-                      muted
-                      preload="metadata"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLightboxIndex(index);
-                        setLightboxUrl(url);
-                      }}
-                    />
-                    <div className={`absolute inset-0 rounded-lg border-2 transition-all duration-200 flex items-center justify-center ${
-                      index === lightboxIndex ? "border-yellow-400 opacity-100" : "border-white/30 opacity-50 hover:opacity-80"
-                    }`}>
-                      <svg xmlns="http://www.w3.org/2000/svg"
-                           className="w-3 h-3 text-white" fill="currentColor"
-                           viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                  </div>
-                ) : (
-                  <img
-                    key={index}
-                    src={url}
-                    alt={`Thumb ${index + 1}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLightboxIndex(index);
-                      setLightboxUrl(url);
-                    }}
-                    className={`w-14 h-14 object-cover rounded-lg cursor-pointer border-2 transition-all duration-200 ${
-                      index === lightboxIndex ? "border-yellow-400 opacity-100" : "border-white/30 opacity-50 hover:opacity-80"
-                    }`}
-                  />
-                )
-              ))}
-            </div>
           )}
         </div>
       )}

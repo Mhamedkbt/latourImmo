@@ -946,13 +946,13 @@ export default function PropertiesPage() {
                           )}
                         </div>
                         <button
-                          type="button"
-                          onClick={() => removePreviewImage(index)}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
-                          title="Remove this image"
-                        >
-                          ×
-                        </button>
+  type="button"
+  onClick={() => removePreviewImage(index)}
+  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center transition-opacity shadow-lg"
+  title="Remove this image"
+>
+  ×
+</button>
                         {mainImageIndex === index && (
                           <div className="absolute bottom-0 left-0 right-0 bg-[#c9a84c] text-[#1a2b4a] text-xs font-semibold py-1 text-center">
                             Main Cover
@@ -1084,4 +1084,4 @@ export default function PropertiesPage() {
 
 
 
-// svg
+// Remove this image

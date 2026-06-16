@@ -25,9 +25,9 @@ interface Property {
 
 // Updated data targets exactly matching your requested values
 const statsData = [
-  { target: 10, suffix: "+", label: "Properties" },
+  { target: 20, suffix: "+", label: "Properties" },
   { target: 3, suffix: "+", label: "Years Experience" },
-  { target: 50, suffix: "+", label: "Happy Clients" },
+  { target: 30, suffix: "+", label: "Happy Clients" },
   { target: 6, suffix: "+", label: "Cities" },
 ];
 
@@ -442,3 +442,7 @@ export default function Home() {
     </>
   );
 }
+
+
+
+

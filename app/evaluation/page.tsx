@@ -384,173 +384,179 @@ export default function EvaluationPage() {
                 </div>
 
                 <div>
-                  <label className={labelClassName}>
-                    Upload Photos & Videos
-                  </label>
+  <label className={labelClassName}>
+    Upload Photos & Videos
+  </label>
 
-                  <div
-                    className="relative w-full rounded-lg border-2 border-dashed border-gray-200 
-                               bg-gray-50 px-4 py-6 text-center hover:border-[#c9a84c] 
-                               hover:bg-[#c9a84c]/5 transition-all duration-200 cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="mx-auto h-8 w-8 text-gray-400 mb-2"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                      />
+  <div
+    className="relative w-full rounded-lg border-2 border-dashed border-gray-200 
+               bg-gray-50 px-4 py-6 text-center hover:border-[#c9a84c] 
+               hover:bg-[#c9a84c]/5 transition-all duration-200 cursor-pointer"
+    onClick={() => fileInputRef.current?.click()}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="mx-auto h-8 w-8 text-gray-400 mb-2"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+      />
+    </svg>
+    <p className="text-sm font-medium text-[#1a2b4a]">
+      Click to upload photos & videos
+    </p>
+    <p className="text-xs text-gray-500 mt-1">
+      📷 JPG, PNG, WebP  ·  🎬 MP4, MOV, WebM — Max 50 MB each.
+    </p>
+    <input
+      ref={fileInputRef}
+      name="photos"
+      type="file"
+      accept="image/*"
+      multiple
+      className="hidden"
+      onChange={handleFileChange}
+    />
+  </div>
+
+  {selectedFiles.length > 0 && (
+    <div className="mt-3">
+      <div className="flex flex-wrap gap-2">
+        {selectedFiles.map((file, index) => (
+          <div
+            key={`${file.name}-${file.size}-${index}`}
+            className="relative h-20 w-20 overflow-visible rounded-lg 
+                       border-2 border-gray-200 flex-shrink-0 bg-white"
+          >
+            {/* Wrapper to handle rounded corners inside overflow-visible block */}
+            <div className="w-full h-full rounded-md overflow-hidden relative">
+              {isVideoFile(file) ? (
+                <div className="relative h-full w-full bg-gray-900 
+                                flex items-center justify-center overflow-hidden">
+                  <video
+                    src={URL.createObjectURL(file)}
+                    className="h-full w-full object-cover"
+                    muted
+                    preload="metadata"
+                  />
+                  <div className="absolute inset-0 flex items-center 
+                                  justify-center bg-black/40">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         className="w-5 h-5 text-white" fill="currentColor"
+                         viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
                     </svg>
-                    <p className="text-sm font-medium text-[#1a2b4a]">
-                      Click to upload photos & videos
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      📷 JPG, PNG, WebP  ·  🎬 MP4, MOV, WebM — Max 50 MB each.
-                    </p>
-                    <input
-                      ref={fileInputRef}
-                      name="photos"
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      className="hidden"
-                      onChange={handleFileChange}
-                    />
                   </div>
-
-                  {selectedFiles.length > 0 && (
-                    <div className="mt-3">
-                      <div className="flex flex-wrap gap-2">
-                        {selectedFiles.map((file, index) => (
-                          <div
-                            key={`${file.name}-${file.size}-${index}`}
-                            className="relative group h-20 w-20 overflow-hidden rounded-lg 
-                                       border-2 border-gray-200 flex-shrink-0"
-                          >
-                            {isVideoFile(file) ? (
-                              <div className="relative h-full w-full bg-gray-900 
-                                              flex items-center justify-center overflow-hidden">
-                                <video
-                                  src={URL.createObjectURL(file)}
-                                  className="h-full w-full object-cover"
-                                  muted
-                                  preload="metadata"
-                                />
-                                <div className="absolute inset-0 flex items-center 
-                                                justify-center bg-black/40">
-                                  <svg xmlns="http://www.w3.org/2000/svg"
-                                       className="w-5 h-5 text-white" fill="currentColor"
-                                       viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                  </svg>
-                                </div>
-                                <div className="absolute bottom-1 left-0 right-0 text-center
-                                                bg-black/60 text-white text-xs py-0.5 font-medium">
-                                  VIDEO
-                                </div>
-                              </div>
-                            ) : (
-                              <img
-                                src={URL.createObjectURL(file)}
-                                alt={`Preview ${index + 1}`}
-                                className="h-full w-full object-cover"
-                                onError={(e) => { e.currentTarget.style.display = 'none' }}
-                              />
-                            )}
-
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                removeFile(index)
-                              }}
-                              className="absolute inset-0 flex items-center justify-center 
-                                         bg-black/60 opacity-0 group-hover:opacity-100 
-                                         transition-opacity duration-200"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M6 18L18 6M6 6l12 12"
-                                />
-                              </svg>
-                            </button>
-
-                            <div className="absolute top-1 left-1 bg-black/50 text-white 
-                                            text-xs rounded-full w-5 h-5 flex items-center 
-                                            justify-center font-medium">
-                              {index + 1}
-                            </div>
-                          </div>
-                        ))}
-
-                        <button
-                          type="button"
-                          onClick={() => fileInputRef.current?.click()}
-                          className="h-20 w-20 rounded-lg border-2 border-dashed border-gray-300 
-                                     flex flex-col items-center justify-center gap-1
-                                     hover:border-[#c9a84c] hover:bg-[#c9a84c]/5 
-                                     transition-all duration-200 flex-shrink-0"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 text-gray-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 4v16m8-8H4"
-                            />
-                          </svg>
-                          <span className="text-xs text-gray-400">Add more</span>
-                        </button>
-                      </div>
-
-                      <div className="mt-2 flex items-center justify-between">
-                        <p className="text-xs text-gray-500">
-                          {(() => {
-                            const videoCount = selectedFiles.filter(f => f.type.startsWith('video/')).length
-                            const imageCount = selectedFiles.length - videoCount
-                            const parts = []
-                            if (imageCount > 0) parts.push(`${imageCount} photo${imageCount > 1 ? 's' : ''}`)
-                            if (videoCount > 0) parts.push(`${videoCount} video${videoCount > 1 ? 's' : ''}`)
-                            return parts.join(' + ') + ' selected'
-                          })()}
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSelectedFiles([])
-                            if (fileInputRef.current) fileInputRef.current.value = ''
-                          }}
-                          className="text-xs text-red-500 hover:text-red-700 
-                                     font-medium transition-colors"
-                        >
-                          Remove all
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <div className="absolute bottom-0 left-0 right-0 text-center
+                                  bg-black/60 text-white text-[10px] py-0.5 font-medium">
+                    VIDEO
+                  </div>
                 </div>
+              ) : (
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={`Preview ${index + 1}`}
+                  className="h-full w-full object-cover"
+                  onError={(e) => { e.currentTarget.style.display = 'none' }}
+                />
+              )}
+
+              {/* Number Badge */}
+              <div className="absolute top-1 left-1 bg-black/50 text-white 
+                              text-[10px] rounded-full w-4 h-4 flex items-center 
+                              justify-center font-medium">
+                {index + 1}
+              </div>
+            </div>
+
+            {/* Absolute Fixed Delete Button - Visible constantly without hover */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation()
+                removeFile(index)
+              }}
+              className="absolute -top-1.5 -right-1.5 bg-red-500 hover:bg-red-600 text-white 
+                         rounded-full w-5 h-5 flex items-center justify-center shadow-md 
+                         transition-colors z-20"
+              title="Remove this file"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="h-20 w-20 rounded-lg border-2 border-dashed border-gray-300 
+                     flex flex-col items-center justify-center gap-1
+                     hover:border-[#c9a84c] hover:bg-[#c9a84c]/5 
+                     transition-all duration-200 flex-shrink-0"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+          <span className="text-xs text-gray-400">Add more</span>
+        </button>
+      </div>
+
+      <div className="mt-2 flex items-center justify-between">
+        <p className="text-xs text-gray-500">
+          {(() => {
+            const videoCount = selectedFiles.filter(f => f.type.startsWith('video/')).length
+            const imageCount = selectedFiles.length - videoCount
+            const parts = []
+            if (imageCount > 0) parts.push(`${imageCount} photo${imageCount > 1 ? 's' : ''}`)
+            if (videoCount > 0) parts.push(`${videoCount} video${videoCount > 1 ? 's' : ''}`)
+            return parts.join(' + ') + ' selected'
+          })()}
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            setSelectedFiles([])
+            if (fileInputRef.current) fileInputRef.current.value = ''
+          }}
+          className="text-xs text-red-500 hover:text-red-700 
+                     font-medium transition-colors"
+        >
+          Remove all
+        </button>
+      </div>
+    </div>
+  )}
+</div>
 
                 {formError && (
                   <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3">
@@ -628,3 +634,5 @@ export default function EvaluationPage() {
     </div>
   )
 }
+
+//Click to upload photos & videos Add more
