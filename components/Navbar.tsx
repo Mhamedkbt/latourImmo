@@ -52,8 +52,25 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop Call Button */}
-        <div className="hidden md:block">
+        {/* Desktop Action Box (Person Icon to the left of Phone Button) */}
+        <div className="hidden items-center gap-5 md:flex">
+          <Link 
+            href="/admin" 
+            className="text-white transition-colors hover:text-[#c9a84c]"
+            aria-label="Admin Login"
+          >
+            {/* Person Icon */}
+            <svg 
+              className="h-6 w-6" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              strokeWidth={2} 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+          </Link>
+          
           <a
             href="tel:0661141811"
             className="rounded-md bg-[#c9a84c] px-5 py-2.5 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] lg:text-base"
@@ -62,37 +79,58 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <button
-          type="button"
-          className="inline-flex items-center justify-center rounded-md p-2 text-white hover:text-[#c9a84c] md:hidden"
-          aria-expanded={menuOpen}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            aria-hidden="true"
+        {/* Mobile Controls (Person Icon on the left of Menu Icon) */}
+        <div className="flex items-center gap-3 md:hidden">
+          <Link 
+            href="/admin" 
+            className="p-2 text-white transition-colors hover:text-[#c9a84c]"
+            aria-label="Admin Login"
+            onClick={() => setMenuOpen(false)}
           >
-            {menuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
+            {/* Person Icon */}
+            <svg 
+              className="h-6 w-6" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              strokeWidth={2} 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+          </Link>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md p-2 text-white hover:text-[#c9a84c]"
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              {menuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Dropdown Menu */}

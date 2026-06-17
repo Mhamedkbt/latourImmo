@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
+
 export default function AdminPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -104,3 +105,4 @@ export default function AdminPage() {
     </div>
   );
 }
+
