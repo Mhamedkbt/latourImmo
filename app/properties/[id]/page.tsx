@@ -240,6 +240,100 @@ export default function PropertyPage() {
     </>
   )
 
+  // Shared Request Information Form Content to avoid repeating markup
+  const requestInfoFormContent = (
+    <>
+      <h3 className="text-lg font-bold text-[#1a2b4a]">
+        Request Information
+      </h3>
+      <p className="mt-1 text-sm text-gray-500">
+        Fill out the form and we&apos;ll get back to you shortly.
+      </p>
+
+      {formSent ? (
+        <div className="mt-6 rounded-lg bg-green-50 px-4 py-4 text-center">
+          <p className="text-sm font-semibold text-green-700">
+            ✅ Message sent successfully!
+          </p>
+          <p className="mt-1 text-xs text-green-600">
+            We&apos;ll get back to you as soon as possible.
+          </p>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          {formError && (
+            <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">
+              {formError}
+            </p>
+          )}
+          <div>
+            <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-[#1a2b4a]">
+              Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              required
+              placeholder="Your name"
+              value={form.name}
+              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+            />
+          </div>
+          <div>
+            <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-[#1a2b4a]">
+              Phone
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              required
+              placeholder="06 XX XX XX XX"
+              value={form.phone}
+              onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-[#1a2b4a]">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              required
+              placeholder="you@example.com"
+              value={form.email}
+              onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+            />
+          </div>
+          <div>
+            <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-[#1a2b4a]">
+              Message
+            </label>
+            <textarea
+              id="message"
+              required
+              rows={4}
+              placeholder="I'm interested in this property..."
+              value={form.message}
+              onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+              className="w-full resize-none rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={formSending}
+            className="w-full rounded-lg bg-[#c9a84c] px-6 py-3 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {formSending ? 'Sending...' : 'Send Message'}
+          </button>
+        </form>
+      )}
+    </>
+  )
+
   return (
     <div className="bg-white">
       <section className="relative h-[45vh] min-h-[320px] w-full sm:h-[50vh] lg:h-[55vh]">
@@ -379,7 +473,7 @@ export default function PropertyPage() {
               </div>
             )}
 
-            {/* MOBILE ONLY: Price and Details Box (Appears precisely here, before description, on mobile) */}
+            {/* MOBILE ONLY: Price and Details Box */}
             <div className="block lg:hidden rounded-xl border border-gray-100 bg-white p-6 shadow-lg">
               {propertyDetailsCardContent}
             </div>
@@ -399,6 +493,11 @@ export default function PropertyPage() {
                 process, ensuring a seamless experience from first visit to
                 final signature.
               </p>
+            </div>
+
+            {/* MOBILE ONLY: Request Information Box (Appears precisely here, after description, on mobile) */}
+            <div className="block lg:hidden rounded-xl border border-gray-100 bg-white p-6 shadow-lg">
+              {requestInfoFormContent}
             </div>
 
             {/* SIMILAR PROPERTIES */}
@@ -485,96 +584,9 @@ export default function PropertyPage() {
                 {propertyDetailsCardContent}
               </div>
 
-              {/* REQUEST INFORMATION FORM (Visible on both PC & Mobile here) */}
-              <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-lg">
-                <h3 className="text-lg font-bold text-[#1a2b4a]">
-                  Request Information
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Fill out the form and we&apos;ll get back to you shortly.
-                </p>
-
-                {formSent ? (
-                  <div className="mt-6 rounded-lg bg-green-50 px-4 py-4 text-center">
-                    <p className="text-sm font-semibold text-green-700">
-                      ✅ Message sent successfully!
-                    </p>
-                    <p className="mt-1 text-xs text-green-600">
-                      We&apos;ll get back to you as soon as possible.
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-                    {formError && (
-                      <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">
-                        {formError}
-                      </p>
-                    )}
-                    <div>
-                      <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-[#1a2b4a]">
-                        Name
-                      </label>
-                      <input
-                        id="name"
-                        type="text"
-                        required
-                        placeholder="Your name"
-                        value={form.name}
-                        onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-[#1a2b4a]">
-                        Phone
-                      </label>
-                      <input
-                        id="phone"
-                        type="tel"
-                        required
-                        placeholder="06 XX XX XX XX"
-                        value={form.phone}
-                        onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-[#1a2b4a]">
-                        Email
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        required
-                        placeholder="you@example.com"
-                        value={form.email}
-                        onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-[#1a2b4a]">
-                        Message
-                      </label>
-                      <textarea
-                        id="message"
-                        required
-                        rows={4}
-                        placeholder="I'm interested in this property..."
-                        value={form.message}
-                        onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                        className="w-full resize-none rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={formSending}
-                      className="w-full rounded-lg bg-[#c9a84c] px-6 py-3 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                      {formSending ? 'Sending...' : 'Send Message'}
-                    </button>
-                  </form>
-                )}
+              {/* PC ONLY: REQUEST INFORMATION FORM */}
+              <div className="hidden lg:block rounded-xl border border-gray-100 bg-white p-6 shadow-lg">
+                {requestInfoFormContent}
               </div>
             </div>
           </aside>
