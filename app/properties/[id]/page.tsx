@@ -484,9 +484,9 @@ export default function PropertyPage() {
                 Description
               </h2>
               <div className="mt-2 h-1 w-16 rounded-full bg-[#c9a84c]" />
-              <p className="mt-6 leading-relaxed text-gray-600">
-                {property.description ?? 'No description available for this property.'}
-              </p>
+              <p className="whitespace-pre-line text-[#1a2b4a] leading-relaxed">
+  {property.description}
+</p>
               <p className="mt-4 leading-relaxed text-gray-600">
                 Contact LaTour Immo today to schedule a private viewing. Our
                 experienced agents will guide you through every step of the
@@ -697,3 +697,5 @@ export default function PropertyPage() {
     </div>
   )
 }
+
+// description

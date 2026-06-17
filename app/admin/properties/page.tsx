@@ -871,16 +871,16 @@ export default function PropertiesPage() {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-[#1a2b4a]">Description</label>
-                <textarea
-                  placeholder="Property description"
-                  rows={3}
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="mt-2 w-full resize-none rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                />
-              </div>
+<div>
+  <label className="block text-sm font-medium text-[#1a2b4a]">Description</label>
+  <textarea
+    placeholder="Property description"
+    rows={6}
+    value={formData.description}
+    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+    className="mt-2 w-full resize-none rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30 leading-relaxed"
+  />
+</div>
 
               <div className="flex items-center gap-3">
                 <input
@@ -1084,4 +1084,4 @@ export default function PropertiesPage() {
 
 
 
-// Remove this image
+// Remove this image   placeholder
