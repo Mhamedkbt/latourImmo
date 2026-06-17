@@ -46,6 +46,20 @@ export default function Home() {
   const statsRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
 
+  // BLOCK SCROLLING EFFECT
+  useEffect(() => {
+    if (pageLoading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // Cleanup function to ensure scroll is restored if component unmounts unexpectedly
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [pageLoading]);
+
   useEffect(() => {
     const fetchFeaturedProperties = async () => {
       const { data, error } = await supabase
@@ -135,7 +149,7 @@ export default function Home() {
             <div className="absolute h-full w-full rounded-full border-4 border-[#c9a84c]/10"></div>
             <div className="absolute h-full w-full rounded-full border-4 border-t-[#c9a84c] border-r-transparent border-b-transparent border-l-transparent animate-spin duration-700"></div>
             {/* Secondary reverse counter pulse inner core ring */}
-            <div className="absolute h-12 w-12 rounded-full border-[3px] border-b-[#white] border-t-transparent border-r-transparent border-l-transparent animate-[spin_1s_linear_infinite_reverse] opacity-40"></div>
+            <div className="absolute h-12 w-12 rounded-full border-[3px] border-b-[white] border-t-transparent border-r-transparent border-l-transparent animate-[spin_1s_linear_infinite_reverse] opacity-40"></div>
           </div>
           <p className="mt-6 text-sm font-semibold tracking-widest text-[#c9a84c] uppercase animate-pulse">
             LaTour Immo
