@@ -153,27 +153,85 @@ function PropertiesContent() {
 
       <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-8 lg:flex-row">
-          <aside className="w-full shrink-0 lg:w-72">
-            <form
-              onSubmit={handleSearch}
-              className="rounded-xl border border-gray-100 bg-white p-6 shadow-lg"
-            >
-              <h2 className="text-lg font-semibold text-[#1a2b4a]">Filters</h2>
+        <aside className="w-full shrink-0 lg:w-72">
+            {/* 1. MOBILE RESPONSIVE FILTER (Closed by default, hidden on PC) */}
+            <div className="block lg:hidden rounded-xl border border-gray-100 bg-white p-4 shadow-lg">
+              <details className="group">
+                <summary className="flex cursor-pointer items-center justify-between list-none text-lg font-semibold text-[#1a2b4a]">
+                  <span>Filters</span>
+                  <span className="text-gray-400 transition-transform group-open:rotate-180">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </summary>
 
-              <div className="mt-6 space-y-5">
+                <form onSubmit={handleSearch} className="mt-4 hidden group-open:block">
+                  <div className="grid grid-cols-1 gap-y-3.5 sm:grid-cols-2 gap-x-4">
+                    {/* Filter Fields Area */}
+                    <div>
+                      <label htmlFor="type-mobile" className="mb-1 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">Type</label>
+                      <select id="type-mobile" value={type} onChange={(e) => setType(e.target.value)} className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-[#1a2b4a] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30">
+                        <option value="">All types</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="villa">Villa</option>
+                        <option value="land">Land</option>
+                        <option value="commercial">Commercial</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label htmlFor="city-mobile" className="mb-1 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">City</label>
+                      <input id="city-mobile" type="text" placeholder="Casablanca, Marrakech..." value={city} onChange={(e) => setCity(e.target.value)} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-[#1a2b4a] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30" />
+                    </div>
+
+                    <div>
+                      <label htmlFor="status-mobile" className="mb-1 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">Status</label>
+                      <select id="status-mobile" value={status} onChange={(e) => setStatus(e.target.value)} className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-[#1a2b4a] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30">
+                        <option value="">Sale or Rent</option>
+                        <option value="sale">Sale</option>
+                        <option value="rent">Rent</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label htmlFor="priceRange-mobile" className="mb-1 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">Price Range</label>
+                      <select id="priceRange-mobile" value={priceRange} onChange={(e) => setPriceRange(e.target.value)} className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-[#1a2b4a] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30">
+                        <option value="">Any price</option>
+                        <option value="0-500000">Up to 500,000 MAD</option>
+                        <option value="500000-2000000">500,000 – 2M MAD</option>
+                        <option value="2000000-5000000">2M – 5,000,000 MAD</option>
+                        <option value="5000000+">5,000,000+ MAD</option>
+                      </select>
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label htmlFor="surfaceRange-mobile" className="mb-1 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">Surface Area</label>
+                      <select id="surfaceRange-mobile" value={surfaceRange} onChange={(e) => setSurfaceRange(e.target.value)} className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-[#1a2b4a] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30">
+                        <option value="">Any size</option>
+                        <option value="0-50">Up to 50 m²</option>
+                        <option value="50-100">50 – 100 m²</option>
+                        <option value="100-200">100 – 200 m²</option>
+                        <option value="200+">200 m²+</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <button type="submit" className="w-full mt-4 rounded-lg bg-[#c9a84c] px-6 py-2.5 text-sm font-semibold text-[#1a2b4a] hover:bg-[#d4b85e] transition-colors">
+                    Search
+                  </button>
+                </form>
+              </details>
+            </div>
+
+            {/* 2. PC DESKTOP FILTER (Always Open, hidden on mobile layouts) */}
+            <div className="hidden lg:block rounded-xl border border-gray-100 bg-white p-6 shadow-lg">
+              <h2 className="text-lg font-semibold text-[#1a2b4a]">Filters</h2>
+              
+              <form onSubmit={handleSearch} className="mt-5 space-y-4">
                 <div>
-                  <label
-                    htmlFor="type"
-                    className="mb-1.5 block text-sm font-medium text-[#1a2b4a]"
-                  >
-                    Type
-                  </label>
-                  <select
-                    id="type"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                  >
+                  <label htmlFor="type-desktop" className="mb-1.5 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">Type</label>
+                  <select id="type-desktop" value={type} onChange={(e) => setType(e.target.value)} className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30">
                     <option value="">All types</option>
                     <option value="apartment">Apartment</option>
                     <option value="villa">Villa</option>
@@ -183,35 +241,13 @@ function PropertiesContent() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="city"
-                    className="mb-1.5 block text-sm font-medium text-[#1a2b4a]"
-                  >
-                    City
-                  </label>
-                  <input
-                    id="city"
-                    type="text"
-                    placeholder="Casablanca, Marrakech..."
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                  />
+                  <label htmlFor="city-desktop" className="mb-1.5 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">City</label>
+                  <input id="city-desktop" type="text" placeholder="Casablanca, Marrakech..." value={city} onChange={(e) => setCity(e.target.value)} className="w-full rounded-lg border border-gray-200 px-4 py-2 text-sm text-[#1a2b4a]/80 placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30" />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="status"
-                    className="mb-1.5 block text-sm font-medium text-[#1a2b4a]"
-                  >
-                    Status
-                  </label>
-                  <select
-                    id="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                  >
+                  <label htmlFor="status-desktop" className="mb-1.5 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">Status</label>
+                  <select id="status-desktop" value={status} onChange={(e) => setStatus(e.target.value)} className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30">
                     <option value="">Sale or Rent</option>
                     <option value="sale">Sale</option>
                     <option value="rent">Rent</option>
@@ -219,18 +255,8 @@ function PropertiesContent() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="priceRange"
-                    className="mb-1.5 block text-sm font-medium text-[#1a2b4a]"
-                  >
-                    Price Range
-                  </label>
-                  <select
-                    id="priceRange"
-                    value={priceRange}
-                    onChange={(e) => setPriceRange(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                  >
+                  <label htmlFor="priceRange-desktop" className="mb-1.5 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">Price Range</label>
+                  <select id="priceRange-desktop" value={priceRange} onChange={(e) => setPriceRange(e.target.value)} className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30">
                     <option value="">Any price</option>
                     <option value="0-500000">Up to 500,000 MAD</option>
                     <option value="500000-2000000">500,000 – 2,000,000 MAD</option>
@@ -240,18 +266,8 @@ function PropertiesContent() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="surfaceRange"
-                    className="mb-1.5 block text-sm font-medium text-[#1a2b4a]"
-                  >
-                    Surface Area
-                  </label>
-                  <select
-                    id="surfaceRange"
-                    value={surfaceRange}
-                    onChange={(e) => setSurfaceRange(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
-                  >
+                  <label htmlFor="surfaceRange-desktop" className="mb-1.5 block text-xs font-semibold text-[#1a2b4a]/80 uppercase tracking-wider">Surface Area</label>
+                  <select id="surfaceRange-desktop" value={surfaceRange} onChange={(e) => setSurfaceRange(e.target.value)} className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30">
                     <option value="">Any size</option>
                     <option value="0-50">Up to 50 m²</option>
                     <option value="50-100">50 – 100 m²</option>
@@ -260,14 +276,11 @@ function PropertiesContent() {
                   </select>
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full rounded-lg bg-[#c9a84c] px-6 py-3 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:ring-offset-2"
-                >
+                <button type="submit" className="w-full rounded-lg bg-[#c9a84c] px-6 py-3 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:ring-offset-2">
                   Search
                 </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </aside>
 
           <div className="flex-1">
@@ -522,3 +535,7 @@ function PropertiesContent() {
     </div>
   );
 }
+
+
+
+// <aside className
