@@ -46,7 +46,7 @@ export function TestimonialsSlider() {
   }, []);
 
   return (
-    <section className="bg-gray-50 px-4 py-24 sm:px-6 lg:px-8 overflow-hidden border-t border-gray-100 w-full">
+    <section className="bg-gray-50 px-4 py-17 sm:px-6 lg:px-8 overflow-hidden border-t border-gray-100 w-full">
       <div className="mx-auto max-w-4xl text-center">
         <span className="text-xs font-bold uppercase tracking-widest text-[#c9a84c]">
           Témoignages
