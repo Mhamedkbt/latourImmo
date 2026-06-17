@@ -169,7 +169,7 @@ export default function Home() {
           <img 
             src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80" 
             alt="Moroccan Modern Architecture" 
-            className="h-full w-full object-cover object-center scale-105 animate-[aliveBackground_20s_ease-in-out_infinite]"
+            className="h-full w-full object-cover object-center scale-125 animate-[aliveBackground_30s_linear_infinite]"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1a2b4a]/90 via-[#1a2b4a]/85 to-[#0d1a2e]/90 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d1a2e]/40 to-[#0d1a2e]" />
@@ -177,9 +177,11 @@ export default function Home() {
 
         <style jsx global>{`
           @keyframes aliveBackground {
-            0% { transform: scale(1.05) translate(0px, 0px); }
-            55% { transform: scale(1.12) translate(-8px, 4px); }
-            100% { transform: scale(1.05) translate(0px, 0px); }
+            0% { transform: scale(1.2) translate(0px, 0px) rotate(0deg); }
+            25% { transform: scale(1.22) translate(-20px, 12px) rotate(0.5deg); }
+            50% { transform: scale(1.25) translate(-10px, -20px) rotate(-0.5deg); }
+            75% { transform: scale(1.22) translate(20px, -10px) rotate(0.3deg); }
+            100% { transform: scale(1.2) translate(0px, 0px) rotate(0deg); }
           }
           @keyframes contentEntrance {
             from { opacity: 0; transform: translateY(15px); }
@@ -473,6 +475,6 @@ export default function Home() {
         </div>
       </section>
       <TestimonialsSlider />
-          </>
+    </>
   );
 }

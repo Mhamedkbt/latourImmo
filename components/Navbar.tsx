@@ -11,7 +11,8 @@ export default function Navbar() {
   const t = useTranslations("nav");
   const locale = useLocale();
   
-  const headerRef = useRef<HTMLDivElement>(null);
+  // Create a reference to the navbar element to check where clicks happen
+  const navRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
     { href: `/${locale}`, label: t("home") },
@@ -21,31 +22,29 @@ export default function Navbar() {
     { href: `/${locale}/contact`, label: t("contact") },
   ];
 
+  // Effect hook to handle clicks outside the navbar
   useEffect(() => {
-    if (!menuOpen) return;
-
-    const handleScroll = () => {
-      setMenuOpen(false);
-    };
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
+    function handleClickOutside(event: MouseEvent) {
+      // If the menu is open and the click target is not inside the navbar, close it
+      if (menuOpen && navRef.current && !navRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
-    };
+    }
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Bind the event listener to the document body
     document.addEventListener("mousedown", handleClickOutside);
-
+    
+    // Clean up the event listener when component unmounts
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuOpen]);
 
   return (
-    <header ref={headerRef} className="sticky top-0 z-50 bg-[#1a2b4a] shadow-md">
-      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"> 
+    // Attached the navRef here to wrap the header area
+    <header ref={navRef} className="sticky top-0 z-50 bg-[#1a2b4a] shadow-md">
+      {/* py-[2px] gives micro padding top and bottom to the whole nav row */}
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 py-[2px] sm:px-6 lg:px-8"> 
         
         {/* Logo Link Wrapper */}
         <Link
@@ -53,14 +52,14 @@ export default function Navbar() {
           className="flex items-center"
           onClick={() => setMenuOpen(false)}
         >
-          <div className="relative h-16 w-36 sm:w-40 md:w-44">
+          <div className="relative h-20 w-40 sm:w-44 md:w-48 lg:w-52">
             <Image
               src="/images/LaTourImmoLogoPng.png"
               alt="LaTour Immo Logo"
               fill
               priority
               className="object-contain object-left"
-              sizes="(max-width: 768px) 155px, 184px"
+              sizes="(max-width: 768px) 160px, 208px"
             />
           </div>
         </Link>
@@ -79,13 +78,14 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop Action Box */}
+        {/* Desktop Action Box (Language Switcher and Phone Button) */}
         <div className="hidden items-center gap-3 md:flex">
           <Link 
             href={`/${locale}/admin`}
             className="text-white transition-colors hover:text-[#c9a84c]"
             aria-label="Admin Login"
           >
+            {/* Person Icon */}
             <svg 
               className="h-6 w-6" 
               fill="none" 
@@ -100,14 +100,14 @@ export default function Navbar() {
           <LanguageSwitcher />
           
           <a
-            href="tel:0661141811"
+            href="tel:+212661141811"
             className="rounded-md bg-[#c9a84c] px-5 py-2.5 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] lg:text-base"
           >
-            0661141811
+            +212661141811
           </a>
         </div>
 
-        {/* Mobile Controls */}
+        {/* Mobile Controls (Person Icon on the left of Menu Icon) */}
         <div className="flex items-center gap-3 md:hidden">
           <Link 
             href={`/${locale}/admin`}
@@ -115,6 +115,7 @@ export default function Navbar() {
             aria-label="Admin Login"
             onClick={() => setMenuOpen(false)}
           >
+            {/* Person Icon */}
             <svg 
               className="h-6 w-6" 
               fill="none" 
@@ -134,51 +135,62 @@ export default function Navbar() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((open) => !open)}
           >
-            <div className="relative h-6 w-6 flex items-center justify-center">
-              {/* Hamburger Icon Lines */}
-              <span className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ease-in-out ${menuOpen ? "rotate-45" : "-translate-y-2"}`} />
-              <span className={`absolute h-0.5 w-6 bg-current transform transition-all duration-200 ease-in-out ${menuOpen ? "opacity-0" : "opacity-100"}`} />
-              <span className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ease-in-out ${menuOpen ? "-rotate-45" : "translate-y-2"}`} />
-            </div>
+            {/* Sized at h-7 w-7 for improved mobile visibility */}
+            <svg
+              className="h-7 w-7"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              {menuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
           </button>
         </div>
       </nav>
 
-      {/* Modern Animated Mobile Dropdown Menu */}
-      <div 
-        className={`overflow-hidden border-white/10 bg-[#1a2b4a] md:hidden transition-all duration-300 ease-in-out ${
-          menuOpen 
-            ? "max-h-[400px] opacity-100 border-t" 
-            : "max-h-0 opacity-0 pointer-events-none"
-        }`}
-      >
-        <ul className={`flex flex-col px-4 py-4 sm:px-6 transition-all duration-500 delay-75 transform ${
-          menuOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
-        }`}>
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="block py-3 text-base font-medium text-white transition-colors hover:text-[#c9a84c]"
-                onClick={() => setMenuOpen(false)}
+      {/* Mobile Dropdown Menu */}
+      {menuOpen && (
+        <div className="border-t border-white/10 bg-[#1a2b4a] md:hidden">
+          <ul className="flex flex-col px-4 py-4 sm:px-6">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="block py-3 text-base font-medium text-white transition-colors hover:text-[#c9a84c]"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li className="pt-2">
+              <a
+                href="tel:0661141811"
+                className="block rounded-md bg-[#c9a84c] px-4 py-3 text-center text-base font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e]"
               >
-                {link.label}
-              </Link>
+                +212661141811
+              </a>
             </li>
-          ))}
-          <li className="pt-2">
-            <a
-              href="tel:0661141811"
-              className="block rounded-md bg-[#c9a84c] px-4 py-3 text-center text-base font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e]"
-            >
-              0661141811
-            </a>
-          </li>
-          <li className="pt-4 mt-4 border-t border-white/10">
-            <LanguageSwitcher />
-          </li>
-        </ul>
-      </div>
+            <li className="pt-4 mt-4 border-t border-white/10">
+              <LanguageSwitcher />
+            </li>
+          </ul>
+        </div>
+      )}
     </header>
   );
 }
