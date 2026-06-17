@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: 'Luxury real estate in Morocco',
 }
 
-const locales = ['fr', 'en', 'ar']
+const locales = ['fr', 'en', 'ar', 'es']
 
 export default async function LocaleLayout({
   children,
@@ -52,5 +52,5 @@ export default async function LocaleLayout({
 }
 
 export function generateStaticParams() {
-  return [{ locale: 'fr' }, { locale: 'en' }, { locale: 'ar' }]
+  return [{ locale: 'fr' }, { locale: 'en' }, { locale: 'ar' }, { locale: 'es' }]
 }
