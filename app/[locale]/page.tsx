@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
@@ -193,10 +194,13 @@ export default function Home() {
       {/* Dynamic Animated Hero Section */}
       <section className="relative flex min-h-[90vh] items-center justify-center bg-[#0d1a2e00] px-4 py-20 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img 
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80" 
-            alt="Moroccan Modern Architecture" 
-            className="h-full w-full object-cover object-center scale-125 animate-[aliveBackground_30s_linear_infinite]"
+          <Image
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80"
+            alt="Moroccan Modern Architecture"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center scale-125 animate-[aliveBackground_30s_linear_infinite]"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1a2b4a]/90 via-[#1a2b4a]/85 to-[#0d1a2e]/90 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d1a2e]/40 to-[#0d1a2e]" />
@@ -370,10 +374,12 @@ export default function Home() {
                           </div>
                         </div>
                       ) : (
-                        <img
+                        <Image
                           src={property.images[0]}
                           alt={property.title ?? "Property"}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
                           onError={(e) => {
                             e.currentTarget.style.display = "none";
                           }}
@@ -492,10 +498,12 @@ export default function Home() {
             </Link>
           </div>
           <div className="relative h-[450px] overflow-hidden rounded-2xl shadow-xl bg-gray-100 group">
-            <img 
+            <Image
               src="/images/modern-luxury-villa-pool-medulin.jpg"
               alt="Luxury Morocco Riad Interior Architecture"
-              className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d1a2e]/20 to-transparent pointer-events-none" />
           </div>

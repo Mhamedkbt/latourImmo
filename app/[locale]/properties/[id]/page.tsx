@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
@@ -355,10 +356,13 @@ export default function PropertyPage() {
               preload="metadata"
             />
           ) : (
-            <img
+            <Image
               src={images[0]}
               alt={property.title ?? 'Property'}
-              className="h-full w-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
@@ -418,10 +422,12 @@ export default function PropertyPage() {
                       preload="metadata"
                     />
                   ) : (
-                    <img
+                    <Image
                       src={images[activeImage]}
                       alt={`${property.title} photo ${activeImage + 1}`}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 66vw"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                       onClick={() => { setLightboxIndex(activeImage); setLightboxOpen(true) }}
                       onError={(e) => {
                         e.currentTarget.style.display = 'none'
@@ -463,10 +469,12 @@ export default function PropertyPage() {
                             </div>
                           </div>
                         ) : (
-                          <img
+                          <Image
                             src={src}
                             alt={`${property.title} thumbnail ${index + 1}`}
-                            className="h-full w-full object-cover"
+                            fill
+                            sizes="96px"
+                            className="object-cover"
                             onError={(e) => {
                               e.currentTarget.parentElement!.style.display = 'none'
                             }}
@@ -533,14 +541,18 @@ export default function PropertyPage() {
                             </div>
                           </div>
                         ) : (
-                          <img
-                            src={item.images[0]}
-                            alt={item.title ?? 'Property'}
-                            className="h-40 w-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none'
-                            }}
-                          />
+                          <div className="relative h-40 w-full overflow-hidden">
+                            <Image
+                              src={item.images[0]}
+                              alt={item.title ?? 'Property'}
+                              fill
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              className="object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none'
+                              }}
+                            />
+                          </div>
                         )
                       ) : (
                         <div className="h-40 w-full bg-gradient-to-br from-[#1a2b4a] to-[#2a3b5a] flex items-center justify-center">
@@ -639,10 +651,13 @@ export default function PropertyPage() {
               onClick={(e) => e.stopPropagation()}
             />
           ) : (
-            <img
+            <Image
               src={images[lightboxIndex]}
               alt={`${property?.title} photo ${lightboxIndex + 1}`}
-              className="max-w-[88vw] max-h-[80vh] object-contain select-none rounded-lg shadow-2xl"
+              width={1200}
+              height={800}
+              sizes="88vw"
+              className="max-w-[88vw] max-h-[80vh] w-auto h-auto object-contain select-none rounded-lg shadow-2xl"
               onClick={(e) => e.stopPropagation()}
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
@@ -689,7 +704,7 @@ export default function PropertyPage() {
                       </div>
                     </div>
                   ) : (
-                    <img src={url} alt={`Thumb ${index + 1}`} className="w-full h-full object-cover" />
+                    <Image src={url} alt={`Thumb ${index + 1}`} width={56} height={56} sizes="56px" className="w-full h-full object-cover" />
                   )}
                 </button>
               ))}
