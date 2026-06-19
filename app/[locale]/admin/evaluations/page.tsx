@@ -520,11 +520,16 @@ export default function EvaluationsPage() {
               {selectedEvaluation.photos && selectedEvaluation.photos.length > 0 && (
                 <div className="mt-4">
                   <p className="text-sm font-medium text-gray-600 mb-2">Property Photos ({selectedEvaluation.photos.length})</p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className={`${
+                    selectedEvaluation.photos.length > 4
+                      ? 'flex overflow-x-auto gap-2 pb-2'
+                      : 'grid grid-cols-2 gap-2'
+                  }`}>
                     {selectedEvaluation.photos.map((url, index) => (
                       isVideoUrl(url) ? (
-                        <div key={index} className="relative w-full h-32 rounded-lg overflow-hidden 
-                                                    bg-gray-900 border border-gray-200">
+                        <div key={index} className={`relative rounded-lg overflow-hidden bg-gray-900 border border-gray-200 ${
+                          selectedEvaluation.photos!.length > 4 ? 'flex-shrink-0 w-32 h-32' : 'w-full h-32'
+                        }`}>
                           <video
                             src={url}
                             className="w-full h-full object-cover"
@@ -535,7 +540,9 @@ export default function EvaluationsPage() {
                         </div>
                       ) : (
                         <div key={index}
-                          className="relative group cursor-zoom-in"
+                          className={`relative group cursor-zoom-in ${
+                            selectedEvaluation.photos!.length > 4 ? 'flex-shrink-0 w-32 h-32' : ''
+                          }`}
                           onClick={() => {
                             setLightboxPhotos(selectedEvaluation.photos!)
                             setLightboxIndex(index)
@@ -545,8 +552,9 @@ export default function EvaluationsPage() {
                           <img
                             src={url}
                             alt={`Property photo ${index + 1}`}
-                            className="w-full h-32 object-cover rounded-lg border border-gray-200
-                                       transition-all duration-200 group-hover:brightness-75"
+                            className={`object-cover rounded-lg border border-gray-200 transition-all duration-200 group-hover:brightness-75 ${
+                              selectedEvaluation.photos!.length > 4 ? 'w-32 h-32' : 'w-full h-32'
+                            }`}
                             onError={(e) => { 
                               e.currentTarget.parentElement!.style.display = "none" 
                             }}
@@ -695,3 +703,6 @@ export default function EvaluationsPage() {
     </div>
   );
 }
+
+
+// scroll  style={selectedEvaluation.photos.length > 4 ? { scrollbarWidth: 'none' } : {}}
