@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useTranslations, useLocale } from 'next-intl'
 
@@ -49,6 +49,7 @@ export default function PropertyPage() {
   const [activeImage, setActiveImage] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [formSent, setFormSent] = useState(false)
   const [formSending, setFormSending] = useState(false)
   const [formError, setFormError] = useState('')
@@ -442,46 +443,84 @@ export default function PropertyPage() {
                 </div>
 
                 {images.length > 1 && (
-                  <div className="mt-3 grid grid-cols-4 gap-3">
-                    {images.slice(0, 4).map((src, index) => (
+                  <div className="mt-4">
+                    <div className="relative group">
+                      {/* Left Arrow */}
                       <button
-                        key={index}
-                        type="button"
-                        onClick={() => setActiveImage(index)}
-                        className={`relative h-20 overflow-hidden rounded-lg sm:h-24 transition-all duration-200 ${
-                          activeImage === index
-                            ? 'ring-2 ring-[#c9a84c] ring-offset-2 opacity-100'
-                            : 'opacity-70 hover:opacity-100'
-                        }`}
+                        onClick={() => {
+                          if (scrollContainerRef.current) {
+                            scrollContainerRef.current.scrollBy({ left: -200, behavior: 'smooth' })
+                          }
+                        }}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-[#1a2b4a]/80 hover:bg-[#1a2b4a] text-white rounded-full p-2 transition-all opacity-0 group-hover:opacity-100 shadow-lg"
+                        aria-label="Scroll thumbnails left"
                       >
-                        {isVideoUrl(src) ? (
-                          <div className="relative h-full w-full">
-                            <video
-                              src={src}
-                              className="h-full w-full object-cover"
-                              muted
-                              preload="metadata"
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"/>
-                              </svg>
-                            </div>
-                          </div>
-                        ) : (
-                          <Image
-                            src={src}
-                            alt={`${property.title} thumbnail ${index + 1}`}
-                            fill
-                            sizes="96px"
-                            className="object-cover"
-                            onError={(e) => {
-                              e.currentTarget.parentElement!.style.display = 'none'
-                            }}
-                          />
-                        )}
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
                       </button>
-                    ))}
+
+                      {/* Scrollable Container */}
+                      <div
+                        ref={scrollContainerRef}
+                        className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide scroll-smooth"
+                      >
+                        {images.map((src, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() => setActiveImage(index)}
+                            className={`relative flex-shrink-0 w-24 h-20 sm:w-32 sm:h-24 overflow-hidden rounded-lg transition-all duration-200 cursor-pointer ${
+                              activeImage === index
+                                ? 'border-2 border-[#c9a84c] opacity-100'
+                                : 'border-2 border-transparent opacity-70 hover:opacity-100'
+                            }`}
+                          >
+                            {isVideoUrl(src) ? (
+                              <div className="relative h-full w-full">
+                                <video
+                                  src={src}
+                                  className="h-full w-full object-cover"
+                                  muted
+                                  preload="metadata"
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded">
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                  </svg>
+                                </div>
+                              </div>
+                            ) : (
+                              <Image
+                                src={src}
+                                alt={`${property.title} thumbnail ${index + 1}`}
+                                fill
+                                sizes="(max-width: 640px) 96px, 128px"
+                                className="object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.parentElement!.style.display = 'none'
+                                }}
+                              />
+                            )}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Right Arrow */}
+                      <button
+                        onClick={() => {
+                          if (scrollContainerRef.current) {
+                            scrollContainerRef.current.scrollBy({ left: 200, behavior: 'smooth' })
+                          }
+                        }}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-[#1a2b4a]/80 hover:bg-[#1a2b4a] text-white rounded-full p-2 transition-all opacity-0 group-hover:opacity-100 shadow-lg"
+                        aria-label="Scroll thumbnails right"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
