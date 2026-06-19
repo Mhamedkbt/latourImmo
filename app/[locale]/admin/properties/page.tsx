@@ -905,7 +905,7 @@ export default function PropertiesPage() {
                     existingImages.length + previewImages.length > 4
                       ? 'flex overflow-x-auto gap-2 pb-2'
                       : 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3'
-                  }`} style={existingImages.length + previewImages.length > 4 ? {scrollbarWidth: 'none'} : {}}>
+                  }`} >
                     {existingImages.map((imageUrl, index) => (
                       <div key={`existing-${index}`} className={`relative group ${
                         existingImages.length + previewImages.length > 4 ? 'flex-shrink-0 w-24 h-24' : ''
@@ -1095,4 +1095,4 @@ export default function PropertiesPage() {
 
 
 
-// Remove this image   placeholder
+// Remove this image   placeholder scroll
