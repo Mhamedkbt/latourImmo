@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -388,12 +387,10 @@ function PropertiesContent() {
                             preload="metadata"
                           />
                         ) : (
-                          <Image
+                          <img
                             src={property.images[0]}
                             alt={property.title ?? "Property"}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                            className="object-cover"
+                            className="h-full w-full object-cover"
                             onError={(e) => {
                               e.currentTarget.style.display = "none";
                             }}

@@ -1095,4 +1095,4 @@ export default function PropertiesPage() {
 
 
 
-// Remove this image   placeholder scroll
+// Remove this image   placeholder style={existingImages.length + previewImages.length > 4 ? {scrollbarWidth: 'none'} : {}}
