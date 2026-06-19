@@ -901,9 +901,15 @@ export default function PropertiesPage() {
               {(existingImages.length > 0 || previewImages.length > 0) && (
                 <div>
                   <label className="block text-sm font-medium text-[#1a2b4a] mb-3">{t("current_images")}</label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  <div className={`${
+                    existingImages.length + previewImages.length > 4
+                      ? 'flex overflow-x-auto gap-2 pb-2'
+                      : 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3'
+                  }`} style={existingImages.length + previewImages.length > 4 ? {scrollbarWidth: 'none'} : {}}>
                     {existingImages.map((imageUrl, index) => (
-                      <div key={`existing-${index}`} className="relative group">
+                      <div key={`existing-${index}`} className={`relative group ${
+                        existingImages.length + previewImages.length > 4 ? 'flex-shrink-0 w-24 h-24' : ''
+                      }`}>
                         <div
                           className={`aspect-square rounded-lg overflow-hidden border-2 cursor-pointer transition-colors ${
                             mainImageIndex === index
@@ -964,7 +970,9 @@ export default function PropertiesPage() {
                       </div>
                     ))}
                     {previewImages.map((previewUrl, index) => (
-                      <div key={`preview-${index}`} className="relative group">
+                      <div key={`preview-${index}`} className={`relative group ${
+                        existingImages.length + previewImages.length > 4 ? 'flex-shrink-0 w-24 h-24' : ''
+                      }`}>
                         <div
                           className={`aspect-square rounded-lg overflow-hidden border-2 border-dashed cursor-pointer transition-colors ${
                             mainImageIndex === existingImages.length + index
