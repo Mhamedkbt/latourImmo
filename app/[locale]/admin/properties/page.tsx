@@ -766,8 +766,8 @@ export default function PropertiesPage() {
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="max-h-screen w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-2xl">
-            <div className="sticky top-0 border-b border-gray-200 bg-white p-6 sm:p-8">
+    <div className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-2xl">   
+    <div className="sticky top-0 border-b border-gray-200 bg-white p-6 sm:p-8">
               <button
                 type="button"
                 onClick={() => cleanupAndClose()}
