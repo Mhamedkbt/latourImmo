@@ -552,9 +552,11 @@ export default function PropertyPage() {
                 <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {similarProperties.map((item) => (
                     <article
-                      key={item.id}
-                      className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl"
-                    >
+                    key={property.id}
+                    className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] 
+                               transition-all duration-300 hover:scale-101 hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)]
+                               w-[95%] mx-auto md:w-full"
+                  >
                       {item.images && item.images.length > 0 ? (
                         isVideoUrl(item.images[0]) ? (
                           <div className="relative h-40 w-full overflow-hidden">

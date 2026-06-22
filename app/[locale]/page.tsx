@@ -353,10 +353,11 @@ export default function Home() {
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {featuredProperties.map((property) => (
                 <article
-                  key={property.id}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] 
-                             transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)]"
-                >
+                key={property.id}
+                className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] 
+                           transition-all duration-300 hover:scale-101 hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)]
+                           w-[95%] mx-auto md:w-full"
+              >
                   <div className="relative h-64 w-full overflow-hidden bg-gray-50">
                     {property.images && property.images.length > 0 ? (
                       isVideoUrl(property.images[0]) ? (
